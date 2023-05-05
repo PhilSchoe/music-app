@@ -31,21 +31,24 @@
                 class="block rounded py-3 px-4 transition"
                 href="#"
                 @click.prevent="tab = 'login'"
-                :class="{ 
+                :class="{
                   'hover:text-white text-white bg-blue-600': tab === 'login',
                   'hover:text-blue-600': tab === 'register'
-               }"
+                }"
                 >Login</a
               >
             </li>
             <li class="flex-auto text-center">
-              <a class="block rounded py-3 px-4 transition" href="#"
-              @click.prevent="tab = 'register'"
-              :class="{
-                'hover:text-white text-white bg-blue-600': tab === 'register',
-                'hover:text-blue-600': tab === 'login'
-              }"
-              >Register</a>
+              <a
+                class="block rounded py-3 px-4 transition"
+                href="#"
+                @click.prevent="tab = 'register'"
+                :class="{
+                  'hover:text-white text-white bg-blue-600': tab === 'register',
+                  'hover:text-blue-600': tab === 'login'
+                }"
+                >Register</a
+              >
             </li>
           </ul>
 
@@ -77,15 +80,17 @@
             </button>
           </form>
           <!-- Registration Form -->
-          <vee-form v-show="tab === 'register'">
+          <vee-form v-show="tab === 'register'" :validation-schema="schema">
             <!-- Name -->
             <div class="mb-3">
               <label class="inline-block mb-2">Name</label>
-              <vee-field name="name"
+              <vee-field
+                name="name"
                 type="text"
                 class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
                 placeholder="Enter Name"
               />
+              <ErrorMessage class="text-red-600" name="name" />
             </div>
             <!-- Email -->
             <div class="mb-3">
@@ -152,21 +157,30 @@
 </template>
 
 <script>
-import { mapState, mapWritableState } from "pinia"
-import useModalStore from "@/stores/modal"
+import { mapState, mapWritableState } from 'pinia'
+import useModalStore from '@/stores/modal'
 
 export default {
   name: 'Auth',
   data() {
     return {
-      tab: "login",
+      tab: 'login',
+      schema: {
+        name: 'required',
+        email: '',
+        age: '',
+        password: '',
+        confirm_password: '',
+        country: '',
+        tos: ''
+      }
     }
   },
   computed: {
-    ...mapState(useModalStore, ["hiddenClass"]),
+    ...mapState(useModalStore, ['hiddenClass']),
     ...mapWritableState(useModalStore, {
-      modalVisibility: "isOpen"
-    }),
+      modalVisibility: 'isOpen'
+    })
   }
 }
 </script>
